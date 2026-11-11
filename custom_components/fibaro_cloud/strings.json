@@ -1,0 +1,105 @@
+{
+  "title": "Fibaro Cloud",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Yubii",
+        "description": "Sign in with your Yubii ID. Credentials are stored in Home Assistant configuration to allow reconnection.",
+        "data": {
+          "cloud_username": "Yubii ID email",
+          "cloud_password": "Yubii ID password"
+        }
+      },
+      "hub": {
+        "title": "Select hub",
+        "data": {
+          "hub_serial": "Hub",
+          "hub_username": "Local hub username",
+          "hub_password": "Local hub password"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Update login details",
+        "data": {
+          "cloud_username": "Yubii ID email",
+          "cloud_password": "Yubii ID password",
+          "hub_username": "Local hub username",
+          "hub_password": "Local hub password"
+        }
+      },
+      "devices": {
+        "title": "Select devices",
+        "description": "Select main devices. All supported sensors and controls are included automatically, with one battery sensor per device. Control thermostats, switches, lights and covers from Home Assistant. Names come from Fibaro. New entities on selected devices are added automatically. Deselecting a device removes its entities from Home Assistant.",
+        "data": {
+          "selected_devices": "Devices"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Cloud or hub authentication failed. Check the credentials.",
+      "cannot_connect": "Could not connect or received an unexpected response."
+    },
+    "abort": {
+      "no_hubs": "No available hub was found.",
+      "already_configured": "This hub is already configured.",
+      "reauth_successful": "Authentication updated.",
+      "invalid_selection": "The selection is no longer valid. Please start again."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "device_count": {
+        "name": "Supported main devices"
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "illuminance": {
+        "name": "Illuminance"
+      },
+      "power": {
+        "name": "Power"
+      },
+      "energy": {
+        "name": "Energy"
+      },
+      "battery": {
+        "name": "Battery"
+      },
+      "voltage": {
+        "name": "Voltage"
+      },
+      "current": {
+        "name": "Current"
+      },
+      "frequency": {
+        "name": "Frequency"
+      },
+      "pressure": {
+        "name": "Pressure"
+      },
+      "carbon_dioxide": {
+        "name": "Carbon dioxide"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "devices": {
+        "title": "Select devices",
+        "description": "Select main devices. All supported sensors and controls are included automatically, with one battery sensor per device. Control thermostats, switches, lights and covers from Home Assistant. Names come from Fibaro. New entities on selected devices are added automatically. Deselecting a device removes its entities from Home Assistant.",
+        "data": {
+          "selected_devices": "Devices"
+        }
+      }
+    },
+    "abort": {
+      "invalid_selection": "The selection is no longer valid. Please start again.",
+      "invalid_auth": "Authentication failed. Reauthenticate the integration and try again.",
+      "cannot_connect": "Could not retrieve devices. Your previous selection has not changed."
+    }
+  }
+}

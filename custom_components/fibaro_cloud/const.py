@@ -1,0 +1,7 @@
+"""Configuration keys."""
+DOMAIN = "fibaro_cloud"
+CLOUD_USERNAME = "cloud_username"
+CLOUD_PASSWORD = "cloud_password"
+HUB_SERIAL = "hub_serial"
+HUB_USERNAME = "hub_username"
+HUB_PASSWORD = "hub_password"

@@ -1,0 +1,105 @@
+{
+  "title": "Fibaro Cloud",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Yubii",
+        "description": "Sign in with your Yubii ID. Credentials are stored in Home Assistant configuration to allow reconnection.",
+        "data": {
+          "cloud_username": "Yubii ID email",
+          "cloud_password": "Yubii ID password"
+        }
+      },
+      "hub": {
+        "title": "Select hub",
+        "data": {
+          "hub_serial": "Hub",
+          "hub_username": "Local hub username",
+          "hub_password": "Local hub password"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Update login details",
+        "data": {
+          "cloud_username": "Yubii ID email",
+          "cloud_password": "Yubii ID password",
+          "hub_username": "Local hub username",
+          "hub_password": "Local hub password"
+        }
+      },
+      "devices": {
+        "title": "Velg enheter",
+        "description": "Velg hovedenhetene som skal legges til. Alle støttede sensorer og kontroller følger med automatisk, med én batterisensor per enhet. Termostater, brytere, lys og persienner kan styres fra Home Assistant. Navn hentes fra Fibaro. Nye entiteter på valgte enheter tas inn automatisk. Fjerner du en enhet fra utvalget, fjernes dens entiteter fra Home Assistant.",
+        "data": {
+          "selected_devices": "Enheter"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Cloud or hub authentication failed. Check the credentials.",
+      "cannot_connect": "Could not connect or received an unexpected response."
+    },
+    "abort": {
+      "no_hubs": "No available hub was found.",
+      "already_configured": "This hub is already configured.",
+      "reauth_successful": "Authentication updated.",
+      "invalid_selection": "Utvalget er ikke lenger gyldig. Start på nytt."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "device_count": {
+        "name": "Støttede hovedenheter"
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "illuminance": {
+        "name": "Illuminance"
+      },
+      "power": {
+        "name": "Power"
+      },
+      "energy": {
+        "name": "Energy"
+      },
+      "battery": {
+        "name": "Battery"
+      },
+      "voltage": {
+        "name": "Spenning"
+      },
+      "current": {
+        "name": "Strøm"
+      },
+      "frequency": {
+        "name": "Frekvens"
+      },
+      "pressure": {
+        "name": "Trykk"
+      },
+      "carbon_dioxide": {
+        "name": "Karbondioksid"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "devices": {
+        "title": "Velg enheter",
+        "description": "Velg hovedenhetene som skal legges til. Alle støttede sensorer og kontroller følger med automatisk, med én batterisensor per enhet. Termostater, brytere, lys og persienner kan styres fra Home Assistant. Navn hentes fra Fibaro. Nye entiteter på valgte enheter tas inn automatisk. Fjerner du en enhet fra utvalget, fjernes dens entiteter fra Home Assistant.",
+        "data": {
+          "selected_devices": "Enheter"
+        }
+      }
+    },
+    "abort": {
+      "invalid_selection": "Utvalget er ikke lenger gyldig. Start på nytt.",
+      "invalid_auth": "Innlogging mislyktes. Autentiser integrasjonen på nytt og prøv igjen.",
+      "cannot_connect": "Kunne ikke hente enheter. Det forrige utvalget er ikke endret."
+    }
+  }
+}

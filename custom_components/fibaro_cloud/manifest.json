@@ -1,0 +1,12 @@
+{
+  "domain": "fibaro_cloud",
+  "name": "Fibaro Cloud",
+  "version": "0.1.0",
+  "config_flow": true,
+  "documentation": "https://github.com/bkflatekvaal/ha-fibaro-cloud",
+  "issue_tracker": "https://github.com/bkflatekvaal/ha-fibaro-cloud/issues",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "codeowners": ["@bkflatekvaal"],
+  "requirements": []
+}
