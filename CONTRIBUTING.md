@@ -17,7 +17,7 @@ python -m compileall -q custom_components/fibaro_cloud tests/fibaro_cloud
 
 `pytest.ini` sets the repository import path and enables asynchronous fixtures. The test modules also import shared fixtures from `test_ha.py`; use pytest's default import mode. No separate HA pytest plugin is required. Dependencies are listed in `requirements-dev.txt`; these are development dependencies, not integration manifest requirements. Keep the HA pin aligned with any API changes before expanding the supported version range.
 
-The GitHub Actions workflow runs these checks on Linux after a push or pull request. It has read-only repository permissions and does not publish anything. The workflow itself has not been run on GitHub during this preparation.
+The GitHub Actions workflow runs these checks on Linux after a push or pull request. It creates a virtual environment, which HA's command-line configuration check requires. It has read-only repository permissions and does not publish anything. See the repository's Actions tab for the result of each commit.
 
 Tests must never use a production configuration directory or real credentials. Remote network connections are blocked by `tests/fibaro_cloud/conftest.py` so an accidentally unmocked request fails. Loopback connections remain available for asyncio's internal sockets on Windows. Dependency installation needs internet access before testing.
 
@@ -49,7 +49,7 @@ On 2026-11-11, Python 3.14.10 with Home Assistant 2026.11.0, pytest 9.2.0 and py
 
 - All 52 existing tests passed with remote connections blocked. Five deprecation warnings came from HA / its dependencies.
 - Python compilation and project JSON parsing passed.
-- The isolated HA configuration helper returned no errors. The standard HA CLI cannot run natively on Windows; the Linux CLI check in GitHub Actions remains unexecuted.
+- The isolated HA configuration helper returned no errors. The standard HA CLI cannot run natively on Windows; GitHub Actions runs that check separately on Linux.
 - The publication inventory and synthetic fixtures were reviewed; no private configuration or live data was found. A credential-pattern scan found no matches. This is not a guarantee about external or future files.
 
 No live device commands, production restart, GitHub push, release, or publication was performed.
