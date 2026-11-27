@@ -19,6 +19,12 @@ python -m compileall -q custom_components/fibaro_cloud tests/fibaro_cloud
 
 The GitHub Actions workflow runs these checks on Linux after a push or pull request. It creates a virtual environment, which HA's command-line configuration check requires. It has read-only repository permissions and does not publish anything. See the repository's Actions tab for the result of each commit.
 
+The separate `Validate integration` workflow also runs the official
+`home-assistant/actions/hassfest` and `hacs/action` validators on every push and
+pull request, and supports manual dispatch. The HACS action uses the integration
+category with no ignored checks and no PR comments. Both jobs must pass before
+publication; passing them does not itself add the integration to the catalog.
+
 Tests must never use a production configuration directory or real credentials. Remote network connections are blocked by `tests/fibaro_cloud/conftest.py` so an accidentally unmocked request fails. Loopback connections remain available for asyncio's internal sockets on Windows. Dependency installation needs internet access before testing.
 
 ## Isolated HA configuration check
