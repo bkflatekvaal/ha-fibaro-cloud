@@ -26,3 +26,11 @@ Files are shipped inside `custom_components/fibaro_cloud/brand/`:
 
 There are no duplicate logo files: Home Assistant falls back to the icon.
 See [Home Assistant's brand image requirements](https://contributors.home-assistant.io/core/integrations/brands/).
+
+The exports are trimmed to the artwork bounds and normalized to square icons.
+PNG files are losslessly compressed and have no embedded metadata. Transparency
+is preferred by Home Assistant, not required; the dark variant retains its
+charcoal background. The branding tests enforce the filenames, dimensions,
+absence of duplicate images, and consistent names in Marketplace and HA.
+These checks run in the existing test workflow; they do not constitute a full
+hassfest or Marketplace catalog approval.
