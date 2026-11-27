@@ -72,6 +72,49 @@ def test_password_masking():
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("step,expected", [
+    ("user", {"cloud_password"}),
+    ("hub", {"hub_password"}),
+    ("reauth_confirm", {"cloud_password", "hub_password"}),
+])
+@pytest.mark.parametrize("rejected", [False, True])
+async def test_every_credential_form_masks_passwords(hass, step, expected, rejected):
+    """Prevent the initial-setup/reauth plain-text field regression from SweTrack."""
+    import json
+    import probatio
+    from homeassistant.helpers.selector import TextSelector
+
+    flow = FibaroCloudConfigFlow()
+    flow.hass = hass
+    flow.handler = "fibaro_cloud"
+    flow._hubs = [{"serial": "TEST"}]
+    flow._cloud_data = dict(CONFIG)
+    flow._client = Mock()
+    submitted = CONFIG | {"cloud_password": "FORM_SECRET_CLOUD", "hub_password": "FORM_SECRET_HUB"}
+    with patch.object(flow, "_get_reauth_entry", return_value=entry()), patch(
+        "custom_components.fibaro_cloud.config_flow.CloudClient"
+    ) as client, patch(
+        "custom_components.fibaro_cloud.config_flow.read_snapshot",
+        side_effect=AuthenticationError("Rejected"),
+    ):
+        client.return_value.login.side_effect = AuthenticationError("Rejected")
+        result = await getattr(flow, f"async_step_{step}")(submitted if rejected else None)
+    assert result["type"] == "form"
+    if rejected:
+        assert result["errors"] == {"base": "invalid_auth"}
+    fields = {}
+    for marker, selector in result["data_schema"].schema.items():
+        key = marker.schema
+        if isinstance(key, probatio.Secret):
+            fields[key.schema] = selector
+    assert fields.keys() == expected
+    for selector in fields.values():
+        assert isinstance(selector, TextSelector)
+        assert selector.config["type"] == "password"
+    assert "FORM_SECRET" not in json.dumps(result, default=str)
+
+
+@pytest.mark.asyncio
 async def test_setup_unload(hass):
     from homeassistant.bootstrap import async_load_base_functionality
     from homeassistant import loader

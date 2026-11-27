@@ -63,4 +63,6 @@ Protect your Home Assistant configuration and backups: they contain your saved l
 
 Report problems through [GitHub Issues](https://github.com/bkflatekvaal/ha-fibaro-cloud/issues). Include your Home Assistant and integration versions, hub model, and a short description. Never share passwords, cookies, configuration files, backups or raw hub responses. Review any logs or diagnostic files before attaching them.
 
+This is a personal hobby project with limited time for maintenance and issue follow-up. Contributions are welcome, but quick responses or fixes cannot be promised. Use it at your own risk.
+
 For implementation details, see [authentication, diagnostics and limitations](docs/technical.md). For tests and development, see [CONTRIBUTING.md](CONTRIBUTING.md).
