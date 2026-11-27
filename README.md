@@ -10,12 +10,21 @@ This project is under active development and is not affiliated with Fibaro, Yubi
 
 Requires Home Assistant **2026.11**. Earlier versions have not been verified.
 
+### Marketplace — Add from link
+
+1. Open **Settings → Marketplace** and select **Add from link** in the upper-right corner.
+2. Under **GitHub link**, paste `https://github.com/bkflatekvaal/ha-fibaro-cloud` and select **Add**. Connect your GitHub account if prompted.
+3. Open **Fibaro Cloud** in the list and select **Install**. Follow any restart prompt.
+4. Continue with the integration setup, or open **Settings → Devices & services → Add integration → Fibaro Cloud**.
+
+The integration can be added by link without being listed in the catalog. Installation through Marketplace has not yet been verified for this project. See the [Marketplace instructions](https://www.home-assistant.io/integrations/marketplace/#custom-repositories) for more help.
+
+### Manual installation
+
 1. Download this repository from [GitHub](https://github.com/bkflatekvaal/ha-fibaro-cloud).
 2. Copy the `custom_components/fibaro_cloud` folder into your Home Assistant configuration's `custom_components` folder.
 3. Restart Home Assistant.
 4. Go to **Settings → Devices & services → Add integration → Fibaro Cloud**.
-
-For Marketplace, add the repository URL using **Settings → Marketplace → Add from link**, then install and follow the restart prompt. Installation through Marketplace has not yet been verified; the integration is not listed in its catalog.
 
 ## Setup
 
