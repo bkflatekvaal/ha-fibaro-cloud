@@ -37,3 +37,6 @@ private/
 live_data/
 *.pem
 *.key
+cookies*.txt
+cookies*.json
+*diagnostics*.json

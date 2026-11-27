@@ -2,6 +2,7 @@
 from __future__ import annotations
 import base64
 import http.cookiejar
+import http.client
 import json
 
 from .capabilities import ACTIONS
@@ -22,6 +23,13 @@ class AuthenticationError(ProbeError):
     """Credentials rejected or cloud session expired."""
 
 
+def is_login_url(url: str) -> bool:
+    """Recognize only known login destinations, never arbitrary HTML errors."""
+    parsed = urllib.parse.urlsplit(url)
+    return (parsed.hostname in ALLOWED_HOSTS
+            and parsed.path.rstrip('/') in {'/login', '/cmh/login', '/cmh/api/authorize'})
+
+
 def check_url(url: str) -> None:
     parsed = urllib.parse.urlsplit(url)
     if (parsed.scheme != "https" or parsed.hostname not in ALLOWED_HOSTS
@@ -34,6 +42,8 @@ class RestrictedRedirect(urllib.request.HTTPRedirectHandler):
         check_url(newurl)
         # A proxy redirect must not carry hub credentials to another endpoint.
         if req.has_header("Authorization") or req.has_header("X-fibaro-auth"):
+            if is_login_url(newurl):
+                raise AuthenticationError("Cloud redirected to login.")
             raise ProbeError("Authenticated API request redirected; stopped.")
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
@@ -53,6 +63,8 @@ class CloudClient:
         req = urllib.request.Request(url, data=data, headers=headers or {})
         try:
             with self.opener.open(req, timeout=self.timeout) as response:
+                if expect_json and is_login_url(response.geturl()):
+                    raise AuthenticationError("Cloud redirected to login.")
                 payload = response.read(8_000_001)
                 if len(payload) > 8_000_000:
                     raise ProbeError("Response exceeds size limit.")
@@ -60,9 +72,9 @@ class CloudClient:
             status = exc.code
             exc.close()
             if status in (401, 403):
-                raise AuthenticationError(f"Access rejected (HTTP {status}). No automatic login retry.") from None
+                raise AuthenticationError(f"Access rejected (HTTP {status}).") from None
             raise ProbeError(f"Server returned HTTP {status}.") from None
-        except (urllib.error.URLError, TimeoutError, OSError):
+        except (urllib.error.URLError, TimeoutError, OSError, http.client.HTTPException):
             raise ProbeError("Network/TLS connection failed or timed out.") from None
         if not expect_json:
             return None
@@ -74,6 +86,9 @@ class CloudClient:
             raise ProbeError("Expected JSON; received a login page or other response.") from None
 
     def login(self, username: str, password: str):
+        # Start a clean authorization flow; never persist cookies or tempKey.
+        self.session = {}
+        self.cookies.clear()
         # Seed both cookie jars and the server-side OAuth authorization request.
         self.request(HOME + "/cmh/api/authorize", expect_json=False)
         headers = {"Content-Type": "application/x-www-form-urlencoded",
@@ -87,14 +102,15 @@ class CloudClient:
 
     def refresh_session(self):
         """Re-read session parameters; does NOT claim to renew an expired session."""
-        try:
-            result = self.request(HOME + "/cmh/api/session")
-        except ProbeError as exc:
-            if isinstance(exc, AuthenticationError) or str(exc).startswith("Expected JSON"):
-                raise AuthenticationError("Cloud session expired or login was not accepted.") from None
-            raise
-        if not isinstance(result, dict) or not result.get("user") or not result.get("tempKey"):
+        result = self.request(HOME + "/cmh/api/session")
+        if not isinstance(result, dict):
+            raise ProbeError("Unexpected cloud session schema.")
+        if result and not ({"user", "tempKey"} & result.keys()):
+            raise ProbeError("Unexpected cloud session schema.")
+        if not result.get("user") and not result.get("tempKey"):
             raise AuthenticationError("Cloud session is missing. Interactive login or additional verification may be required.")
+        if not result.get("user") or not result.get("tempKey"):
+            raise ProbeError("Unexpected cloud session schema.")
         self.session = {"user": result["user"], "tempKey": result["tempKey"]}
         return self.session
 

@@ -150,16 +150,17 @@ async def test_duplicate_hub(hass):
 
 
 @pytest.mark.asyncio
-async def test_reauth(hass):
+@pytest.mark.parametrize("failure,expected", [(AuthenticationError("Rejected"), "invalid_auth"), (ProbeError("Network"), "cannot_connect")])
+async def test_reauth(hass, failure, expected):
     config = entry()
     flow = FibaroCloudConfigFlow()
     flow.hass = hass
     flow.handler = "fibaro_cloud"
     flow.context = {"source": "reauth"}
     with patch.object(flow, "_get_reauth_entry", return_value=config), patch("custom_components.fibaro_cloud.config_flow.CloudConnection") as connection, patch.object(flow, "async_update_reload_and_abort", return_value={"type": "abort", "reason": "reauth_successful"}) as update:
-        connection.return_value.snapshot.side_effect = AuthenticationError("Rejected")
+        connection.return_value.snapshot.side_effect = failure
         result = await flow.async_step_reauth_confirm(CONFIG)
-        assert result["errors"] == {"base": "invalid_auth"}
+        assert result["errors"] == {"base": expected}
         update.assert_not_called()
         connection.return_value.snapshot.side_effect = None
         connection.return_value.snapshot.return_value = SNAPSHOT

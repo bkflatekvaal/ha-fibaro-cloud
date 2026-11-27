@@ -157,6 +157,7 @@ def test_action_transport_encodes_post_body_and_handles_empty_ack():
     response.__enter__ = Mock(return_value=response)
     response.__exit__ = Mock(return_value=False)
     response.read.return_value = b''
+    response.geturl.return_value = 'https://home.fibaro.com/newProxyLite'
     client.opener.open = Mock(return_value=response)
     client.call_action('TEST', 144, 'setHeatingThermostatSetpoint', [14.5], basic_token='dummy')
     request = client.opener.open.call_args.args[0]
