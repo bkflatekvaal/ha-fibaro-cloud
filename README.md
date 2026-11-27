@@ -1,4 +1,4 @@
-# Fibaro Cloud for Home Assistant
+# FIBARO / Yubii Cloud for Home Assistant
 
 An unofficial integration that connects Home Assistant to your Fibaro / Yubii hub through the cloud. Useful for cabins and other homes where Home Assistant cannot reach the hub locally.
 
@@ -14,8 +14,8 @@ Requires Home Assistant **2026.11**. Earlier versions have not been verified.
 
 1. Open **Settings → Marketplace** and select **Add from link** in the upper-right corner.
 2. Under **GitHub link**, paste `https://github.com/bkflatekvaal/ha-fibaro-cloud` and select **Add**. Connect your GitHub account if prompted.
-3. Open **Fibaro Cloud** in the list and select **Install**. Follow any restart prompt.
-4. Continue with the integration setup, or open **Settings → Devices & services → Add integration → Fibaro Cloud**.
+3. Open **FIBARO / Yubii Cloud** in the list and select **Install**. Follow any restart prompt.
+4. Continue with the integration setup, or open **Settings → Devices & services → Add integration → FIBARO / Yubii Cloud**.
 
 The integration can be added by link without being listed in the catalog. Installation through Marketplace has not yet been verified for this project. See the [Marketplace instructions](https://www.home-assistant.io/integrations/marketplace/#custom-repositories) for more help.
 
@@ -24,7 +24,7 @@ The integration can be added by link without being listed in the catalog. Instal
 1. Download this repository from [GitHub](https://github.com/bkflatekvaal/ha-fibaro-cloud).
 2. Copy the `custom_components/fibaro_cloud` folder into your Home Assistant configuration's `custom_components` folder.
 3. Restart Home Assistant.
-4. Go to **Settings → Devices & services → Add integration → Fibaro Cloud**.
+4. Go to **Settings → Devices & services → Add integration → FIBARO / Yubii Cloud**.
 
 ## Setup
 

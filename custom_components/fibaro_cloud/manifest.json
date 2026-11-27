@@ -1,6 +1,6 @@
 {
   "domain": "fibaro_cloud",
-  "name": "Fibaro Cloud",
+  "name": "FIBARO / Yubii Cloud",
   "version": "0.1.0",
   "config_flow": true,
   "documentation": "https://github.com/bkflatekvaal/ha-fibaro-cloud",

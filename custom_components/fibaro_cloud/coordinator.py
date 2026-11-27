@@ -12,7 +12,7 @@ from .selection import selected_device_ids
 
 class FibaroCoordinator(DataUpdateCoordinator):
     def __init__(self, hass, entry, connection):
-        super().__init__(hass, logging.getLogger(__name__), name='Fibaro Cloud',
+        super().__init__(hass, logging.getLogger(__name__), name='FIBARO / Yubii Cloud',
                          update_interval=timedelta(seconds=60), config_entry=entry)
         self.connection = connection
         self.entry = entry
